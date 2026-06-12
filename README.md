@@ -1,0 +1,1 @@
+# lab_training_k8s_observability
