@@ -1,0 +1,109 @@
+COMPUTED VALUES:
+affinity: {}
+automountServiceAccountToken: true
+clusterRoleBinding:
+  annotations: {}
+  clusterRoleName: cluster-admin
+  create: true
+config:
+  baseURL: ""
+  enableHelm: false
+  extraArgs: []
+  inCluster: true
+  inClusterContextName: main
+  oidc:
+    callbackURL: ""
+    clientID: ""
+    clientSecret: ""
+    externalSecret:
+      enabled: false
+      name: ""
+    issuerURL: ""
+    meUserInfoURL: ""
+    scopes: ""
+    secret:
+      create: true
+      name: oidc
+    useAccessToken: false
+    useCookie: false
+    usePKCE: false
+    validatorClientID: ""
+    validatorIssuerURL: ""
+  pluginsDir: /headlamp/plugins
+  sessionTTL: 86400
+  watchPlugins: false
+deploymentAnnotations: {}
+extraContainers: []
+extraManifests: []
+fullnameOverride: ""
+hostUsers: true
+httpRoute:
+  annotations: {}
+  enabled: false
+  hostnames: []
+  labels: {}
+  parentRefs: []
+  rules: []
+image:
+  pullPolicy: IfNotPresent
+  registry: ghcr.io
+  repository: headlamp-k8s/headlamp
+  tag: ""
+imagePullSecrets: []
+ingress:
+  annotations: {}
+  enabled: false
+  hosts: []
+  ingressClassName: ""
+  labels: {}
+  tls: []
+initContainers: []
+nameOverride: ""
+namespaceOverride: ""
+nodeSelector: {}
+persistentVolumeClaim:
+  accessModes: []
+  annotations: {}
+  enabled: false
+  selector: {}
+  size: ""
+  storageClassName: ""
+  volumeMode: ""
+pluginsManager:
+  baseImage: node:lts-alpine
+  configContent: ""
+  configFile: plugin.yml
+  enabled: false
+  securityContext: {}
+  version: latest
+  volumeMounts: []
+podAnnotations: {}
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 0
+podLabels: {}
+podSecurityContext: {}
+priorityClassName: ""
+replicaCount: 1
+resources: {}
+securityContext:
+  privileged: false
+  runAsGroup: 101
+  runAsNonRoot: true
+  runAsUser: 100
+service:
+  annotations: {}
+  clusterIP: ""
+  extraServicePorts: []
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+  port: 80
+  type: ClusterIP
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+tolerations: []
+topologySpreadConstraints: []
+volumeMounts: []
+volumes: []
