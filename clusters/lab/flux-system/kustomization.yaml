@@ -3,3 +3,12 @@ kind: Kustomization
 resources:
   - gotk-components.yaml
   - gotk-sync.yaml
+# TEMPORARY: prune off while resources move to child Kustomizations
+patches:
+  - target:
+      kind: Kustomization
+      name: flux-system
+    patch: |
+      - op: replace
+        path: /spec/prune
+        value: false
