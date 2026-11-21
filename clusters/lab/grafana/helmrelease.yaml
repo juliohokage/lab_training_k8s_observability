@@ -1,0 +1,43 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: grafana
+      version: "14.5.0"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-community
+        namespace: flux-system
+  install:
+    createNamespace: true
+  values:
+    persistence:
+      enabled: true
+      size: 2Gi
+    plugins:
+      - victoriametrics-logs-datasource
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: VictoriaMetrics
+            uid: victoriametrics
+            type: prometheus
+            access: proxy
+            url: http://vms-victoria-metrics-single-server.monitoring.svc:8428
+            isDefault: true
+          - name: VictoriaLogs
+            uid: victorialogs
+            type: victoriametrics-logs-datasource
+            access: proxy
+            url: http://vls-victoria-logs-single-server.logging.svc:9428
+          - name: VictoriaTraces
+            uid: victoriatraces
+            type: jaeger
+            access: proxy
+            url: http://vts-vt-single-server.tracing.svc:10428/select/jaeger
