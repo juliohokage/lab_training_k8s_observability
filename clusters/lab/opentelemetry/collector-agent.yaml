@@ -9,11 +9,11 @@ kind: ClusterRole
 metadata:
   name: otel-agent
 rules:
-  # kubeletstats receiver
+  # kubelet_stats receiver
   - apiGroups: [""]
     resources: ["nodes/stats", "nodes/proxy"]
     verbs: ["get"]
-  # k8sattributes processor + resourcedetection
+  # k8s_attributes processor + resource_detection
   - apiGroups: [""]
     resources: ["pods", "namespaces", "nodes"]
     verbs: ["get", "list", "watch"]
@@ -61,13 +61,13 @@ spec:
       readOnly: true
   config:
     receivers:
-      kubeletstats:
+      kubelet_stats:
         collection_interval: 30s
         auth_type: serviceAccount
         endpoint: https://${env:K8S_NODE_IP}:10250
         insecure_skip_verify: true
         metric_groups: [node, pod, container, volume]
-      hostmetrics:
+      host_metrics:
         collection_interval: 30s
         root_path: /hostfs
         scrapers:
@@ -85,11 +85,11 @@ spec:
         check_interval: 1s
         limit_percentage: 80
         spike_limit_percentage: 25
-      resourcedetection:
+      resource_detection:
         detectors: [env, k8snode]
         k8snode:
           node_from_env_var: K8S_NODE_NAME
-      k8sattributes:
+      k8s_attributes:
         filter:
           node_from_env_var: K8S_NODE_NAME
         extract:
@@ -105,13 +105,13 @@ spec:
                 name: k8s.pod.uid
       batch: {}
     exporters:
-      otlp/gateway:
+      otlp_grpc/gateway:
         endpoint: gateway-collector.opentelemetry.svc:4317
         tls:
           insecure: true
     service:
       pipelines:
         metrics:
-          receivers: [kubeletstats, hostmetrics]
-          processors: [memory_limiter, resourcedetection, k8sattributes, batch]
-          exporters: [otlp/gateway]
+          receivers: [kubelet_stats, host_metrics]
+          processors: [memory_limiter, resource_detection, k8s_attributes, batch]
+          exporters: [otlp_grpc/gateway]
