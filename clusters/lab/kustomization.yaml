@@ -17,6 +17,7 @@ resources:
   - opentelemetry/helmrepository.yaml
   - opentelemetry/namespace.yaml
   - opentelemetry/collector-gateway.yaml
+  - opentelemetry/collector-agent.yaml
   - tracing/helmrelease.yaml
   - tracing/namespace.yaml
   - grafana/namespace.yaml
