@@ -59,7 +59,6 @@ spec:
     - name: hostfs
       mountPath: /hostfs
       readOnly: true
-      mountPropagation: HostToContainer
   config:
     receivers:
       kubeletstats:
