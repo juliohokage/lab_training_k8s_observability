@@ -67,10 +67,15 @@ spec:
     exporters:
       otlp_http/vt:
         traces_endpoint: http://vts-vt-single-server.tracing.svc:10428/insert/opentelemetry/v1/traces
+        headers: &tenant0
+          AccountID: "0"
+          ProjectID: "0"
       otlp_http/vm:
-        metrics_endpoint: http://vms-victoria-metrics-single-server.monitoring.svc:8428/opentelemetry/v1/metrics
+        metrics_endpoint: http://vminsert-vmc.monitoring.svc:8480/insert/opentelemetry/v1/metrics
+        headers: *tenant0
       otlp_http/vl:
         logs_endpoint: http://vls-victoria-logs-single-server.logging.svc:9428/insert/opentelemetry/v1/logs
+        headers: *tenant0
     service:
       pipelines:
         traces:

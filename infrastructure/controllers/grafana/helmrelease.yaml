@@ -29,18 +29,36 @@ spec:
             uid: victoriametrics
             type: prometheus
             access: proxy
-            url: http://vms-victoria-metrics-single-server.monitoring.svc:8428
+            url: http://vmselect-vmc.monitoring.svc:8481/select/prometheus
+            jsonData:
+              httpHeaderName1: AccountID
+              httpHeaderName2: ProjectID
+            secureJsonData:
+              httpHeaderValue1: "0"
+              httpHeaderValue2: "0"
             isDefault: true
           - name: VictoriaLogs
             uid: victorialogs
             type: victoriametrics-logs-datasource
             access: proxy
             url: http://vls-victoria-logs-single-server.logging.svc:9428
+            jsonData:
+              httpHeaderName1: AccountID
+              httpHeaderName2: ProjectID
+            secureJsonData:
+              httpHeaderValue1: "0"
+              httpHeaderValue2: "0"
           - name: VictoriaTraces
             uid: victoriatraces
             type: jaeger
             access: proxy
             url: http://vts-vt-single-server.tracing.svc:10428/select/jaeger
+            jsonData:
+              httpHeaderName1: AccountID
+              httpHeaderName2: ProjectID
+            secureJsonData:
+              httpHeaderValue1: "0"
+              httpHeaderValue2: "0"
     sidecar:
       dashboards:
         enabled: true

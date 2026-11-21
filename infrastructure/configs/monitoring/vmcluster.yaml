@@ -1,0 +1,33 @@
+# VictoriaMetrics cluster. Tenants = AccountID/ProjectID HTTP headers (default 0:0),
+# same mechanism as VictoriaLogs and VictoriaTraces.
+#   write: http://vminsert-vmc.monitoring.svc:8480/insert/opentelemetry/v1/metrics
+#   read:  http://vmselect-vmc.monitoring.svc:8481/select/prometheus
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMCluster
+metadata:
+  name: vmc
+  namespace: monitoring
+spec:
+  retentionPeriod: "1"   # months
+  replicationFactor: 1
+  vmstorage:
+    replicaCount: 1
+    image:
+      repository: victoriametrics/vmstorage
+      tag: v1.156.0-cluster
+    storage:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 16Gi
+  vmselect:
+    replicaCount: 1
+    image:
+      repository: victoriametrics/vmselect
+      tag: v1.156.0-cluster
+  vminsert:
+    replicaCount: 1
+    image:
+      repository: victoriametrics/vminsert
+      tag: v1.156.0-cluster
