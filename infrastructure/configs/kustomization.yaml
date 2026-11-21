@@ -1,0 +1,6 @@
+# Custom resources that need the controllers' CRDs (OpenTelemetryCollector, ...).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - opentelemetry/collector-gateway.yaml
+  - opentelemetry/collector-agent.yaml

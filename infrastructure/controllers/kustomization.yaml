@@ -1,0 +1,39 @@
+# Operators, backends and Grafana: everything that installs CRDs or long-lived services.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - headlamp/namespace.yaml
+  - headlamp/helmrepository.yaml
+  - headlamp/helmrelease.yaml
+  - monitoring/namespace.yaml
+  - monitoring/helmrepository.yaml
+  - monitoring/helmrelease.yaml
+  - logging/namespace.yaml
+  - logging/helmrepository.yaml
+  - logging/helmrelease-vls.yaml
+  - logging/helmrelease-collector.yaml
+  - tracing/namespace.yaml
+  - tracing/helmrelease.yaml
+  - opentelemetry/namespace.yaml
+  - opentelemetry/helmrepository.yaml
+  - opentelemetry/helmrelease.yaml
+  - grafana/namespace.yaml
+  - grafana/helmrepository.yaml
+  - grafana/helmrelease.yaml
+configMapGenerator:
+  - name: grafana-dashboard-lab-overview
+    namespace: grafana
+    files:
+      - grafana/dashboards/lab-overview.json
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
+  - name: grafana-dashboard-crossplane
+    namespace: grafana
+    files:
+      - grafana/dashboards/crossplane.json
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
