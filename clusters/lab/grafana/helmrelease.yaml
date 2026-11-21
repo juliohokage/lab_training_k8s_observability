@@ -41,3 +41,10 @@ spec:
             type: jaeger
             access: proxy
             url: http://vts-vt-single-server.tracing.svc:10428/select/jaeger
+    sidecar:
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+        labelValue: "1"
+        # ConfigMaps in the grafana namespace labelled grafana_dashboard=1
+        searchNamespace: grafana

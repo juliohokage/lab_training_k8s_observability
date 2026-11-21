@@ -25,3 +25,12 @@ resources:
   - grafana/helmrelease.yaml
   - telemetrygen/namespace.yaml
   - telemetrygen/deployment.yaml
+configMapGenerator:
+  - name: grafana-dashboard-lab-overview
+    namespace: grafana
+    files:
+      - grafana/dashboards/lab-overview.json
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
