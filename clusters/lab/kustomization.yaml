@@ -34,3 +34,11 @@ configMapGenerator:
       disableNameSuffixHash: true
       labels:
         grafana_dashboard: "1"
+  - name: grafana-dashboard-crossplane
+    namespace: grafana
+    files:
+      - grafana/dashboards/crossplane.json
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
