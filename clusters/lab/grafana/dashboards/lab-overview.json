@@ -848,7 +848,7 @@
             "type": "victoriametrics-logs-datasource",
             "uid": "victorialogs"
           },
-          "expr": "* | stats by (kubernetes.pod_namespace) count() as logs",
+          "expr": "kubernetes.pod_namespace:* | stats by (kubernetes.pod_namespace) count() as logs",
           "queryType": "statsRange",
           "step": "1m",
           "legendFormat": "{{kubernetes.pod_namespace}}"
