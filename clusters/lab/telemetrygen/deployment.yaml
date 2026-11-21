@@ -24,6 +24,7 @@ spec:
             - --otlp-insecure
             - --service=telemetrygen
             - --otlp-metric-name=running
+            - --batch=false
             - --metric-type=Gauge
             - --rate=0.2
             - --duration=inf
@@ -38,6 +39,7 @@ spec:
             - --otlp-insecure
             - --service=telemetrygen
             - --body=hello this is working
+            - --batch=false
             - --rate=0.2
             - --duration=inf
           resources: *res
