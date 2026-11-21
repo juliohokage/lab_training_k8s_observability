@@ -1,0 +1,43 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: gateway
+  namespace: opentelemetry
+spec:
+  mode: deployment
+  replicas: 1
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 80
+        spike_limit_percentage: 25
+      batch: {}
+    exporters:
+      otlphttp/vt:
+        traces_endpoint: http://vts-vt-single-server.tracing.svc:10428/insert/opentelemetry/v1/traces
+      otlphttp/vm:
+        metrics_endpoint: http://vms-victoria-metrics-single-server.monitoring.svc:8428/opentelemetry/v1/metrics
+      otlphttp/vl:
+        logs_endpoint: http://vls-victoria-logs-single-server.logging.svc:9428/insert/opentelemetry/v1/logs
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [otlphttp/vt]
+        metrics:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [otlphttp/vm]
+        logs:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [otlphttp/vl]
