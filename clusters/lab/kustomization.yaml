@@ -23,3 +23,5 @@ resources:
   - grafana/namespace.yaml
   - grafana/helmrepository.yaml
   - grafana/helmrelease.yaml
+  - telemetrygen/namespace.yaml
+  - telemetrygen/deployment.yaml

@@ -1,0 +1,55 @@
+# Synthetic test signals -> OTel gateway -> Victoria backends.
+# metric "running" (gauge), log "hello this is working", traces (parent + child span).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telemetrygen
+  namespace: telemetrygen
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telemetrygen
+  template:
+    metadata:
+      labels:
+        app: telemetrygen
+    spec:
+      containers:
+        - name: metrics
+          image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:v0.153.0
+          args:
+            - metrics
+            - --otlp-endpoint=gateway-collector.opentelemetry.svc:4317
+            - --otlp-insecure
+            - --service=telemetrygen
+            - --otlp-metric-name=running
+            - --metric-type=Gauge
+            - --rate=0.2
+            - --duration=inf
+          resources: &res
+            requests: { cpu: 5m, memory: 16Mi }
+            limits: { memory: 64Mi }
+        - name: logs
+          image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:v0.153.0
+          args:
+            - logs
+            - --otlp-endpoint=gateway-collector.opentelemetry.svc:4317
+            - --otlp-insecure
+            - --service=telemetrygen
+            - --body=hello this is working
+            - --rate=0.2
+            - --duration=inf
+          resources: *res
+        - name: traces
+          image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:v0.153.0
+          args:
+            - traces
+            - --otlp-endpoint=gateway-collector.opentelemetry.svc:4317
+            - --otlp-insecure
+            - --service=telemetrygen
+            - --child-spans=2
+            - --span-duration=50ms
+            - --rate=0.2
+            - --duration=inf
+          resources: *res
