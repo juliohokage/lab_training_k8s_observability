@@ -1,0 +1,79 @@
+apiVersion: apiextensions.crossplane.io/v2
+kind: CompositeResourceDefinition
+metadata:
+  name: tenants.myobsstack.training.com
+spec:
+  group: myobsstack.training.com
+  names:
+    categories:
+      - crossplane
+    kind: Tenant
+    plural: tenants
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      additionalPrinterColumns:
+        - name: tenantId
+          type: integer
+          description: the tenant integer of the customer
+          jsonPath: .spec.tenantId
+        - name: metrics
+          type: boolean
+          description: the metric signals
+          jsonPath: .spec.signals.metrics
+        - name: logs
+          type: boolean
+          description: the log signals
+          jsonPath: .spec.signals.logs
+        - name: traces
+          type: boolean
+          description: the trace signals
+          jsonPath: .spec.signals.traces
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          description: Tenant is the Schema for the Tenant API.
+          properties:
+            spec:
+              properties:
+                signals:
+                  default: {}
+                  properties:
+                    logs:
+                      default: false
+                      description:
+                        Enable the VictoriaLogs datasource on Grafana for
+                        dashboard display
+                      type: boolean
+                    metrics:
+                      default: true
+                      description:
+                        Enable the VictoriaMetrics datasource on Grafana
+                        for dashboard display
+                      type: boolean
+                    traces:
+                      default: false
+                      description:
+                        Enable the VictoriaTraces datasource on Grafana for
+                        dashboard display
+                      type: boolean
+                  type: object
+                tenantId:
+                  x-kubernetes-validations:
+                    - rule: "self == oldSelf"
+                      message: customer cannot change its tenantid otherwise data is lost and new datasources are created for this tenant
+                  description:
+                    Customer id to authenticate to our gateway and ingest
+                    telemetry into our backends and grafana
+                  maximum: 1999
+                  minimum: 1000
+                  type: integer
+              required:
+                - tenantId
+              type: object
+            status:
+              type: object
+          required:
+            - spec
+          type: object
+      served: true

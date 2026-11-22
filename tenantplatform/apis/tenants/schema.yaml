@@ -1,0 +1,8 @@
+apiVersion: myobsstack.training.com/v1alpha1
+kind: Tenant
+spec:
+  tenantId: integer | required=true minimum=1000 maximum=1999 description="Customer id to authenticate to our gateway and ingest telemetry into our backends and grafana"
+  signals:
+    metrics: boolean | default=true description="Enable the VictoriaMetrics datasource on Grafana for dashboard display"
+    logs: boolean | default=false description="Enable the VictoriaLogs datasource on Grafana for dashboard display"
+    traces: boolean | default=false description="Enable the VictoriaTraces datasource on Grafana for dashboard display"

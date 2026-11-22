@@ -1,0 +1,11 @@
+apiVersion: myobsstack.training.com/v1alpha1
+kind: Tenant
+metadata:
+  name: tenant-1005
+  namespace: tenant-1005
+spec:
+  tenantId: 1005
+  signals:
+    metrics: true
+    logs: true
+    traces: true

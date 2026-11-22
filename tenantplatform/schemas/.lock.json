@@ -1,0 +1,6 @@
+{
+  "packages": {
+    "xpkg://xpkg.crossplane.io/crossplane-contrib/function-auto-ready:v0.7.3": "sha256:cce8799e19a8f25fb84e1f8dd8855021fdbe8cd7a12a5c22a0c0c345476ae9fe",
+    "xpkg://xpkg.upbound.io/grafana/provider-grafana:v2.18.1": "sha256:d6cc2f8466f6341d43030e3c97ba8f597633a49eb55f12f9cf4d44ac11854030"
+  }
+}
